@@ -4,7 +4,8 @@
 
 #include "Controller.h"
 
-Controller::Controller() {
+Controller::Controller() :
+        rend(Renderer()), deck (DeckOfCards()) {
     std::cout << "Controller()\n";
 }
 

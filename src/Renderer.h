@@ -9,6 +9,7 @@
 #include <SDL2/SDL.h>
 
 #include "Renderer_Consts.h"
+#include "Helpers.h"
 
 class Renderer {
 public:
@@ -23,14 +24,19 @@ public:
 
 private:
     SDL_Window *window;
-    SDL_Texture *he_one;
-    SDL_Texture *he_two;
-    SDL_Texture *ch_one;
-    SDL_Texture *ch_two;
+
+    // Textures for the table headings
+    SDL_Texture *dealer;
+    SDL_Texture *player;
+    SDL_Texture *hit;
+    SDL_Texture *stand;
+    SDL_Texture *play;
+    SDL_Texture *quit;
+
 
     void RenderHand();
-    static std::string GetResourcePath();
     SDL_Texture *LoadTexture(const std::string &file);
+    void LoadTexturesFromDisk();
 };
 
 

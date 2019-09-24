@@ -26,19 +26,16 @@ Renderer::Renderer() {
         }
     }
 
-    //move these to separate function when working...
-    he_one = LoadTexture("Dealer.bmp");
-    he_two = LoadTexture("Player.bmp");
-    ch_one = LoadTexture("Hit.bmp");
-    ch_two = LoadTexture("Stand.bmp");
+    // load the textures for our use
+    LoadTexturesFromDisk();
 }
 
 Renderer::~Renderer() {
     std::cout << "~Renderer()\n";
-    SDL_DestroyTexture(he_one);
-    SDL_DestroyTexture(he_two);
-    SDL_DestroyTexture(ch_one);
-    SDL_DestroyTexture(ch_two);
+    SDL_DestroyTexture(dealer);
+    SDL_DestroyTexture(player);
+    SDL_DestroyTexture(hit);
+    SDL_DestroyTexture(stand);
 
     if (renderer != nullptr) {
         SDL_DestroyRenderer(renderer);
@@ -72,10 +69,10 @@ void Renderer::RenderTable() {
     SDL_RenderFillRect(renderer, &box_player);
     SDL_RenderFillRect(renderer, &box_ch_one);
     SDL_RenderFillRect(renderer, &box_ch_two);
-    SDL_RenderCopy(renderer, he_one, nullptr, &box_dealer);
-    SDL_RenderCopy(renderer, he_two, nullptr, &box_player);
-    SDL_RenderCopy(renderer, ch_one, nullptr, &box_ch_one);
-    SDL_RenderCopy(renderer, ch_two, nullptr, &box_ch_two);
+    SDL_RenderCopy(renderer, dealer, nullptr, &box_dealer);
+    SDL_RenderCopy(renderer, player, nullptr, &box_player);
+    SDL_RenderCopy(renderer, hit, nullptr, &box_ch_one);
+    SDL_RenderCopy(renderer, stand, nullptr, &box_ch_two);
 
     // load and display textures
     SDL_SetRenderDrawColor(renderer, col_card.r, col_card.g, col_card.b, col_card.a);
@@ -83,30 +80,8 @@ void Renderer::RenderTable() {
     // draw hands...
 }
 
-std::string Renderer::GetResourcePath() {
-#ifdef _WIN32
-    const char PATH_SEP = '\\';
-#else
-    const char PATH_SEP = '/';
-#endif
-    static std::string baseRes;
-    if (baseRes.empty()) {
-        char *basePath = SDL_GetBasePath();
-        if (basePath) {
-            baseRes = basePath;
-            SDL_free(basePath);
-        } else {
-            std::cerr << "Error getting resource path: " << SDL_GetError() << std::endl;
-            return "";
-        }
-        baseRes = baseRes + "res" + PATH_SEP;
-    }
-    std::cout << "baseRes: " << baseRes << std::endl;
-    return baseRes;
-}
-
 SDL_Texture* Renderer::LoadTexture(const std::string &file) {
-    const std::string filepath = GetResourcePath() + file;
+    const std::string filepath = Helpers::GetResourcePath() + file;
 
     SDL_Texture *texture = nullptr;
     SDL_Surface *surface = SDL_LoadBMP(filepath.c_str()); // Load the image
@@ -123,4 +98,13 @@ SDL_Texture* Renderer::LoadTexture(const std::string &file) {
     }
 
     return texture;
+}
+
+void Renderer::LoadTexturesFromDisk() {
+    dealer = LoadTexture("Dealer.bmp");
+    player = LoadTexture("Player.bmp");
+    hit = LoadTexture("Hit.bmp");
+    stand = LoadTexture("Stand.bmp");
+    play = LoadTexture("Play.bmp");
+    quit = LoadTexture("Quit.bmp");
 }

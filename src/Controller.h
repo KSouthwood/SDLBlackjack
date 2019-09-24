@@ -18,8 +18,8 @@ public:
 
 
 private:
-    Renderer rend = Renderer();
-    DeckOfCards deck = DeckOfCards();
+    Renderer rend;
+    DeckOfCards deck;
 
     struct Hand {
         std::vector<int> cards;
