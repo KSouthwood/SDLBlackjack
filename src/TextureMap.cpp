@@ -20,12 +20,16 @@ void TextureMap::Cleanup() {
         for (auto& tex : texmap) {
             Textures* texture = (Textures*) tex.second;
 
-            if (tex) {
-                delete tex;
-                tex = nullptr;
+            if (texture) {
+                delete texture;
+                texture = nullptr;
             }
         }
 
         texmap.clear();
     }
+}
+
+Textures *TextureMap::GetID(std::string name) {
+    return (texmap.find(name) == texmap.end()) ? nullptr : texmap[name];
 }

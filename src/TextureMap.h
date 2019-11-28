@@ -14,6 +14,7 @@
 class TextureMap {
 public:
     void AddTexture(SDL_Renderer* renderer, std::string name, std::string filename);
+    Textures* GetID(std::string name);
     void Cleanup();
 
 private:

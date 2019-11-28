@@ -1,5 +1,5 @@
 //
-// Created by keri on 9/23/19.
+// Created by Keri Southwood-Smith on 9/23/19.
 //
 
 #ifndef SDLBLACKJACK_HELPERS_H

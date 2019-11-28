@@ -9,21 +9,23 @@
 #include <iostream>
 #include <SDL2/SDL_surface.h>
 
+#include "Renderer.h"
 #include "Helpers.h"
 
 class Card {
 public:
-    Card(std::string rank_file, std::string suit_file, int value);
+    Card(const std::string& rank_file, const std::string& suit_file,
+            int value);
     ~Card();
 
     int GetValue();
-    SDL_Surface* GetRank();
-    SDL_Surface* GetSuit();
+    std::string GetRank();
+    std::string GetSuit();
 
 private:
-    int value;
-    SDL_Surface *rank;
-    SDL_Surface *suit;
+    int value = 0;
+    std::string rank = "";
+    std::string suit = "";
 };
 
 

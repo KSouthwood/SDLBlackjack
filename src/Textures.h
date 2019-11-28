@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <SDL2/SDL_render.h>
+#include "Helpers.h"
 
 class Textures {
 private:
@@ -18,8 +19,8 @@ public:
     Textures();
     ~Textures();
 
-    SDL_Texture *LoadTexture(const std::string &file);
-    void LoadTextures();
+    bool LoadTexture(SDL_Renderer* rend, const std::string &file);
+    void Render(SDL_Rect dest);
 };
 
 

@@ -22,10 +22,13 @@ private:
     DeckOfCards deck;
 
     struct Hand {
-        std::vector<int> cards;
-        uint score;
-        bool faceup;
+        std::vector<int> cards {};
+        uint score {0};
+        bool faceup {false};
     };
+
+    Hand dealer;
+    Hand player;
 
     void DealHands();
     void PlayPlayerHand();

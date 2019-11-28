@@ -4,14 +4,15 @@
 
 #include "DeckOfCards.h"
 
-DeckOfCards::DeckOfCards() :
-        shuffle(true), card_to_deal(0), reshuffle(0), shoe(nullptr) {
+DeckOfCards::DeckOfCards() {
     std::cout << "DeckOfCards()\n";
-    CreateShoe();
 }
 
 DeckOfCards::~DeckOfCards() {
-
+    std::cout << "~DeckOfCards()\n";
+    for (int i = 0; i < CARDS_IN_DECK; i++) {
+        delete shoe[i];
+    }
 }
 
 void DeckOfCards::CreateShoe() {
@@ -25,4 +26,22 @@ void DeckOfCards::CreateShoe() {
                 suits[i / 13],
                 VALUES[i % 13]);
     }
+}
+
+/******************
+ *  Summary: Deals a card
+ *
+ *  Description: Returns the index of the current card to be dealt, then
+ *      increments the counter. Also checks if we've hit our re-shuffle point
+ *      and sets the shuffle flag to true if we have.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
+int DeckOfCards::DealCard() {
+    int card = card_to_deal++;
+    if (card_to_deal == reshuffle) {
+        shuffle = true;
+    }
+    return card;
 }

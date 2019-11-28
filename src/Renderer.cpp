@@ -2,40 +2,15 @@
 // Created by Keri Southwood-Smith on 9/20/19.
 //
 
+#include <vector>
 #include "Renderer.h"
 
 Renderer::Renderer() {
     std::cout << "Renderer()\n";
-    // create window
-    window = SDL_CreateWindow("SDLBlackjack", SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT,
-            SDL_WINDOW_SHOWN);
-
-    // check for problems
-    if (window == nullptr) {
-        std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        is_valid = false;
-    }
-    else {
-        // create renderer
-        renderer = SDL_CreateRenderer(window, -1,
-                SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-        if (renderer == nullptr) {
-            std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-            is_valid = false;
-        }
-    }
-
-    // load the textures for our use
-    LoadTexturesFromDisk();
 }
 
 Renderer::~Renderer() {
     std::cout << "~Renderer()\n";
-    SDL_DestroyTexture(dealer);
-    SDL_DestroyTexture(player);
-    SDL_DestroyTexture(hit);
-    SDL_DestroyTexture(stand);
 
     if (renderer != nullptr) {
         SDL_DestroyRenderer(renderer);
@@ -63,48 +38,82 @@ void Renderer::RenderTable() {
 
     // draw the boxes for the options
     SDL_SetRenderDrawColor(renderer, col_badge.r, col_badge.g, col_badge.b, col_badge.a);
-
-    // draw the headings
     SDL_RenderFillRect(renderer, &box_dealer);
+    tx_map.GetID("dealer")->Render(box_dealer);
     SDL_RenderFillRect(renderer, &box_player);
-    SDL_RenderFillRect(renderer, &box_ch_one);
+    tx_map.GetID("player")->Render(box_player);
     SDL_RenderFillRect(renderer, &box_ch_two);
-    SDL_RenderCopy(renderer, dealer, nullptr, &box_dealer);
-    SDL_RenderCopy(renderer, player, nullptr, &box_player);
-    SDL_RenderCopy(renderer, hit, nullptr, &box_ch_one);
-    SDL_RenderCopy(renderer, stand, nullptr, &box_ch_two);
+    tx_map.GetID("stand")->Render(box_ch_two);
+    SDL_RenderFillRect(renderer, &box_ch_one);
+    tx_map.GetID("hit")->Render(box_ch_one);
 
     // load and display textures
     SDL_SetRenderDrawColor(renderer, col_card.r, col_card.g, col_card.b, col_card.a);
 
     // draw hands...
+//    RenderHand(false);
 }
 
-SDL_Texture* Renderer::LoadTexture(const std::string &file) {
-    const std::string filepath = Helpers::GetResourcePath() + file;
+void Renderer::LoadTexturesFromDisk() {
+    std::cout << "LoadTexturesFromDisk()\n";
+    for (auto tx_to_load : tx_table) {
+        tx_map.AddTexture(renderer, tx_to_load.first, tx_to_load.second);
+    }
+}
 
+SDL_Texture *Renderer::LoadTexture(const std::string &file) {
+    const std::string file_path = Helpers::GetResourcePath() + file;
     SDL_Texture *texture = nullptr;
-    SDL_Surface *surface = SDL_LoadBMP(filepath.c_str()); // Load the image
+    SDL_Surface *surface = SDL_LoadBMP(file_path.c_str());
+
     if (surface != nullptr) {
-        // surface created ok, now create texture
         texture = SDL_CreateTextureFromSurface(renderer, surface);
         SDL_FreeSurface(surface);
-        // check texture created without problem
         if (texture == nullptr) {
             std::cerr << "SDL_CreateTextureFromSurface error: " << SDL_GetError() << std::endl;
+        } else {
+            std::cerr << "SDL_LoadBMP error: " << SDL_GetError() << std::endl;
         }
-    } else {
-        std::cerr << "SDL_LoadBMP error: " << SDL_GetError() << std::endl;
     }
 
     return texture;
 }
+void Renderer::RenderHand(bool dealer, std::vector<int> cards, bool faceup) {
+    // set up initial position for cards
+    SDL_Rect card = CARD_RECT;
+    card.x += dealer ? DEALER_OFFSET.x : PLAYER_OFFSET.x;
+    card.y += dealer ? DEALER_OFFSET.y : PLAYER_OFFSET.y;
 
-void Renderer::LoadTexturesFromDisk() {
-    dealer = LoadTexture("Dealer.bmp");
-    player = LoadTexture("Player.bmp");
-    hit = LoadTexture("Hit.bmp");
-    stand = LoadTexture("Stand.bmp");
-    play = LoadTexture("Play.bmp");
-    quit = LoadTexture("Quit.bmp");
+    for (u_int i = 0; i < cards.size(); i++) {
+        card.x += i * 120;
+        SDL_RenderFillRect(renderer, &card);
+        if (faceup || (i != 0)) {
+        }
+    }
+
+}
+
+void Renderer::InitRenderer() {
+    // create window
+    window = SDL_CreateWindow("SDLBlackjack", SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT,
+                              SDL_WINDOW_SHOWN);
+
+    // check for problems
+    if (window == nullptr) {
+        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+        is_valid = false;
+    } else {
+        // create renderer
+        renderer = SDL_CreateRenderer(window, -1,
+                                      SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        if (renderer == nullptr) {
+            std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
+            is_valid = false;
+        }
+    }
+    std::cout << "window: " << window << " renderer: " << renderer << std::endl;
+
+    // load the textures for our use
+    LoadTexturesFromDisk();
 }
