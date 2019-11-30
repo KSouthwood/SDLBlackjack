@@ -18,7 +18,7 @@ public:
     Card** shoe = nullptr;
 
     void CreateShoe();
-    int DealCard();
+    Card DealCard();
 
 private:
     bool shuffle = false;

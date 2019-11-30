@@ -11,6 +11,7 @@
 
 #include "Renderer_Consts.h"
 #include "TextureMap.h"
+#include "Card.h"
 
 class Renderer {
 public:
@@ -22,16 +23,16 @@ public:
     bool is_valid = true;
 
     void RenderTable();
-    void InitRenderer();
+    bool InitRenderer();
+    void LoadTexturesFromDisk();
+    void RenderHand(bool dealer, std::vector<Card> cards, bool faceup);
+
     SDL_Texture *LoadTexture(const std::string &file);
 
 private:
-
     SDL_Window *window = nullptr;
     // Textures for the table headings
     TextureMap tx_map;
-    void RenderHand(bool dealer, std::vector<int> cards, bool faceup);
-    void LoadTexturesFromDisk();
 };
 
 

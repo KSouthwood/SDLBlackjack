@@ -14,6 +14,9 @@ class Textures {
 private:
     SDL_Renderer* renderer = nullptr;
     SDL_Texture* texture = nullptr;
+    std::string name {};
+    int width {0};
+    int height {0};
 
 public:
     Textures();
@@ -21,6 +24,7 @@ public:
 
     bool LoadTexture(SDL_Renderer* rend, const std::string &file);
     void Render(SDL_Rect dest);
+    void Render(int x, int y);
 };
 
 

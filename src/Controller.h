@@ -22,7 +22,7 @@ private:
     DeckOfCards deck;
 
     struct Hand {
-        std::vector<int> cards {};
+        std::vector<Card> cards {};
         uint score {0};
         bool faceup {false};
     };

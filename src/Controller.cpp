@@ -6,33 +6,45 @@
 
 Controller::Controller() {
     std::cout << "Controller()\n";
-    rend.InitRenderer();
-    deck.CreateShoe();
 }
 
 bool Controller::GameInit() {
     std::cout << "GameInit()\n";
+    if (rend.InitRenderer()) {
+        rend.LoadTexturesFromDisk();
+        deck.CreateShoe();
+    }
     return rend.is_valid;
 }
 
 void Controller::GameLoop() {
     std::cout << "GameLoop()\n";
-
-    DealHands();
+    player.faceup = true;   // TODO: delete when not needed
+    dealer.faceup = false;
 
     rend.RenderTable();
+    DealHands();
+
     SDL_RenderPresent(rend.renderer);
     SDL_Delay(2000);
 }
 
+/******************
+ *  Summary: Deals initial cards
+ *
+ *  Description: Deal the initial cards to the player and the dealer.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
 void Controller::DealHands() {
     for (int i = 0; i < 2; ++i) {
         player.cards.push_back(deck.DealCard());
-        // show table...
+        rend.RenderHand(false, player.cards, player.faceup);
         SDL_Delay(200);
 
         dealer.cards.push_back(deck.DealCard());
-        // show table...
+        rend.RenderHand(true, dealer.cards, dealer.faceup);
         SDL_Delay(200);
     }
 }

@@ -9,7 +9,6 @@
 #include <iostream>
 #include <SDL2/SDL_surface.h>
 
-#include "Renderer.h"
 #include "Helpers.h"
 
 class Card {

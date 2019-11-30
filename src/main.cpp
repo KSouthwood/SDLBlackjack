@@ -10,6 +10,7 @@ int main(int, char**) {
     bool success = false;
 
     if (SDL_Init(SDL_INIT_VIDEO || SDL_INIT_TIMER) == 0) {
+        std::cout << "Initing game.\n";
         Controller game;
         if (game.GameInit()) {
             game.GameLoop();
