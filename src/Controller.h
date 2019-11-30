@@ -30,10 +30,10 @@ private:
     Hand dealer;
     Hand player;
 
+    void ClearHands();
     void DealHands();
     void PlayPlayerHand();
     void PlayDealerHand();
-    void ClearHands();
     void WhoWon();
     void CenterTexture();
 };

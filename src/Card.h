@@ -20,6 +20,7 @@ public:
     int GetValue();
     std::string GetRank();
     std::string GetSuit();
+    bool faceup = true;
 
 private:
     int value = 0;

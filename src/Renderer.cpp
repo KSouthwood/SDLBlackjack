@@ -97,7 +97,7 @@ void Renderer::RenderTable() {
     tx_map.GetID("hit")->Render(box_ch_one);
 }
 
-void Renderer::RenderHand(bool dealer, std::vector<Card> cards, bool faceup) {
+void Renderer::RenderHand(bool dealer, std::vector<Card> cards) {
     // set up initial position for cards
     SDL_Rect card_bkgrd = CARD_RECT;
     card_bkgrd.x += dealer ? DEALER_OFFSET.x : PLAYER_OFFSET.x;
@@ -106,7 +106,7 @@ void Renderer::RenderHand(bool dealer, std::vector<Card> cards, bool faceup) {
 
     for (u_int i = 0; i < cards.size(); ++i) {
         SDL_RenderFillRect(renderer, &card_bkgrd);
-        if (faceup || (i != 0)) {
+        if (cards[i].faceup) {
             tx_map.GetID(cards[i].GetRank())->Render(card_bkgrd.x + RANK_OFFSET.x, card_bkgrd.y + RANK_OFFSET.y);
             tx_map.GetID(cards[i].GetSuit())->Render(card_bkgrd.x + SUIT_OFFSET.x, card_bkgrd.y + SUIT_OFFSET.y);
         }

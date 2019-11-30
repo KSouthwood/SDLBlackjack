@@ -24,4 +24,3 @@ std::string Card::GetRank() {
 std::string Card::GetSuit() {
     return suit;
 }
-
