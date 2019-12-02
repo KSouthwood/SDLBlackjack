@@ -24,7 +24,6 @@ private:
     struct Hand {
         std::vector<Card> cards {};
         uint score {0};
-        bool faceup {false};
     };
 
     Hand dealer;

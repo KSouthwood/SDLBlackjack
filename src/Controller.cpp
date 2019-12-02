@@ -22,7 +22,7 @@ void Controller::GameLoop() {
     bool game_quit = false;
 
     while (!game_quit) {
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < 10; ++i) {
             if (deck.shuffle) {
                 deck.ShuffleCards();
             }
@@ -41,8 +41,8 @@ void Controller::GameLoop() {
 /******************
  *  Summary: Set hands to initial values
  *
- *  Description: Set the player and dealer hands to initial values for starting play. Set score to 0,
- *      ensure the vector of Cards is empty, set faceup boolean to false.
+ *  Description: Set the player and dealer hands to initial values for starting play. Set score to 0
+ *      and ensure the vector of Cards is empty.
  *
  *  Parameter(s):
  *      N/A
@@ -57,10 +57,6 @@ void Controller::ClearHands() {
     // clear vectors
     player.cards.clear();
     dealer.cards.clear();
-
-    // set boolean
-    player.faceup = true;
-    dealer.faceup = false;
 }
 
 /******************
@@ -73,10 +69,12 @@ void Controller::ClearHands() {
  */
 void Controller::DealHands() {
     for (int i = 0; i < 2; ++i) {
-        player.cards.push_back(deck.DealCard());
+        deck.DealCard(player.cards);
+        player.score = deck.ScoreHand(player.cards);
         rend.RenderHand(false, player.cards);
 
-        dealer.cards.push_back(deck.DealCard());
+        deck.DealCard(dealer.cards);
+        dealer.score = deck.ScoreHand(dealer.cards);
         if (i == 0) {
             dealer.cards.front().faceup = false;
         }
@@ -86,8 +84,9 @@ void Controller::DealHands() {
 
 void Controller::PlayPlayerHand() {
     // temp code for now to handle dealing cards
-    for (int i = 0; i < 3; ++i) {
-        player.cards.push_back(deck.DealCard());
+    while (player.score < 17) {
+        deck.DealCard(player.cards);
+        player.score = deck.ScoreHand(player.cards);
         rend.RenderHand(false, player.cards);
     }
 }
@@ -95,8 +94,11 @@ void Controller::PlayPlayerHand() {
 void Controller::PlayDealerHand() {
     // TODO: delete temp code
     dealer.cards.front().faceup = true;
-    for (int i = 0; i < 3; ++i) {
-        dealer.cards.push_back(deck.DealCard());
+    rend.RenderHand(true, dealer.cards);
+
+    while (dealer.score < 17) {
+        deck.DealCard(dealer.cards);
+        dealer.score = deck.ScoreHand(dealer.cards);
         rend.RenderHand(true, dealer.cards);
     }
 }

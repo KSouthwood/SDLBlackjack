@@ -40,24 +40,6 @@ void DeckOfCards::CreateShoe() {
 }
 
 /******************
- *  Summary: Deals a card
- *
- *  Description: Returns the index of the current card to be dealt, then
- *      increments the counter. Also checks if we've hit our re-shuffle point
- *      and sets the shuffle flag to true if we have.
- *
- *  Parameter(s):
- *      N/A
- */
-Card DeckOfCards::DealCard() {
-    Card deal_card = *shoe[card_to_deal++];
-    if (card_to_deal == reshuffle) {
-        shuffle = true;
-    }
-    return deal_card;
-}
-
-/******************
  *  Summary: Shuffle the deck of cards
  *
  *  Description: Use the Fisher-Yates algorithm to shuffle the deck of cards.
@@ -88,4 +70,64 @@ void DeckOfCards::ShuffleCards() {
     card_to_deal = 0;
     reshuffle = reshuffle_card(ran_engine);
     shuffle = false;
+}
+
+/******************
+ *  Summary: Deals a card by adding to a vector
+ *
+ *  Description: Takes a vector of Card and adds a new Card to the end. Also updates the
+ *      card_to_deal and checks if we need to set the reshuffle flag.
+ *
+ *  Parameter(s):
+ *      hand - the vector of Cards to add a card to
+ */
+void DeckOfCards::DealCard(std::vector<Card> &hand) {
+    hand.push_back(*shoe[card_to_deal++]);
+    if (card_to_deal == reshuffle) {
+        shuffle = true;
+    }
+}
+
+/******************
+ *  Summary: Calculate the score of a hand
+ *
+ *  Description: Iterate over a vector of Card's and calculate the total score of the hand
+ *      taking into account whether or not it has aces.
+ *
+ *  Parameter(s):
+ *      hand - the vector of Cards to calculate the score for
+ */
+int DeckOfCards::ScoreHand(const std::vector<Card>& hand) {
+    std::cout << "ScoreHand()....\n";
+    int score = 0;
+
+    if (!hand.empty()) {
+        bool has_ace = false;
+        bool soft_count = false;
+
+        for (Card card : hand) {
+            int value = card.GetValue();
+            if (value == 11) {
+                if (!has_ace) {
+                    has_ace = true;
+                    soft_count = true;
+                    score += value;
+                } else {
+                    score += 1;
+                }
+            } else {
+                score += value;
+            }
+
+            // check if we're over 21 with an ace in the hand (soft_count is true after the first ace)
+            // if we are, subtract 10 from the score and set soft_count to false
+            if ((score > 21) && (soft_count)) {
+                soft_count = false;
+                score -= 10;
+            }
+        }
+    }
+
+    std::cout << "ScoreHand(): " << score << std::endl;
+    return score;
 }

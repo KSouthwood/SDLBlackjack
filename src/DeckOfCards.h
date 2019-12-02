@@ -21,12 +21,13 @@ public:
     bool shuffle = false;
 
     void CreateShoe();
-    Card DealCard();
+
+    void DealCard(std::vector<Card> &hand);
     void ShuffleCards();
+    int ScoreHand(const std::vector<Card>& hand);
 
 private:
     int card_to_deal = 0;
-
     int reshuffle = 0;
     std::array<int, 13> VALUES = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10};
 
