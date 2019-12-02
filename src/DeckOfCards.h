@@ -6,6 +6,7 @@
 #define SDLBLACKJACK_DECKOFCARDS_H
 
 #include <array>
+#include <random>
 
 #include "Card.h"
 
@@ -17,11 +18,13 @@ public:
 
     Card** shoe = nullptr;
 
+    bool shuffle = false;
+
     void CreateShoe();
     Card DealCard();
+    void ShuffleCards();
 
 private:
-    bool shuffle = false;
     int card_to_deal = 0;
 
     int reshuffle = 0;

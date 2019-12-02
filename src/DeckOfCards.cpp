@@ -35,6 +35,8 @@ void DeckOfCards::CreateShoe() {
                 suits[i / 13],
                 VALUES[i % 13]);
     }
+
+    shuffle = true;
 }
 
 /******************
@@ -53,4 +55,37 @@ Card DeckOfCards::DealCard() {
         shuffle = true;
     }
     return deal_card;
+}
+
+/******************
+ *  Summary: Shuffle the deck of cards
+ *
+ *  Description: Use the Fisher-Yates algorithm to shuffle the deck of cards.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
+void DeckOfCards::ShuffleCards() {
+    std::cout << "ShuffleCards()\n";
+    // random number generator set-up
+    std::random_device ran_dev;
+    std::mt19937 ran_engine(ran_dev());
+    std::uniform_int_distribution<int> card_to_swap(0, 51);
+    std::uniform_int_distribution<int> reshuffle_card(35, 42);
+
+    Card *temp;
+    int swap;
+
+    // Fisher-Yates shuffle algorithm
+    for (int card = CARDS_IN_DECK - 1; card > 0; --card) {
+        swap = card_to_swap(ran_engine) % card;
+
+        temp = shoe[swap];
+        shoe[swap] = shoe[card];
+        shoe[card] = temp;
+    }
+
+    card_to_deal = 0;
+    reshuffle = reshuffle_card(ran_engine);
+    shuffle = false;
 }

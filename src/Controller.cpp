@@ -19,13 +19,23 @@ bool Controller::GameInit() {
 
 void Controller::GameLoop() {
     std::cout << "GameLoop()\n";
-    ClearHands();
+    bool game_quit = false;
 
-    rend.RenderTable();
-    DealHands();
-
-    SDL_RenderPresent(rend.renderer);
-    SDL_Delay(2000);
+    while (!game_quit) {
+        for (int i = 0; i < 7; ++i) {
+            if (deck.shuffle) {
+                deck.ShuffleCards();
+            }
+            ClearHands();
+            rend.RenderTable();
+            DealHands();
+            PlayPlayerHand();
+            PlayDealerHand();
+            SDL_RenderPresent(rend.renderer);
+            SDL_Delay(2000);
+        }
+        game_quit = true;
+    }
 }
 
 /******************
@@ -65,23 +75,30 @@ void Controller::DealHands() {
     for (int i = 0; i < 2; ++i) {
         player.cards.push_back(deck.DealCard());
         rend.RenderHand(false, player.cards);
-        SDL_Delay(200);
 
         dealer.cards.push_back(deck.DealCard());
         if (i == 0) {
             dealer.cards.front().faceup = false;
         }
         rend.RenderHand(true, dealer.cards);
-        SDL_Delay(200);
     }
 }
 
 void Controller::PlayPlayerHand() {
-
+    // temp code for now to handle dealing cards
+    for (int i = 0; i < 3; ++i) {
+        player.cards.push_back(deck.DealCard());
+        rend.RenderHand(false, player.cards);
+    }
 }
 
 void Controller::PlayDealerHand() {
-
+    // TODO: delete temp code
+    dealer.cards.front().faceup = true;
+    for (int i = 0; i < 3; ++i) {
+        dealer.cards.push_back(deck.DealCard());
+        rend.RenderHand(true, dealer.cards);
+    }
 }
 
 void Controller::WhoWon() {

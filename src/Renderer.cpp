@@ -113,4 +113,5 @@ void Renderer::RenderHand(bool dealer, std::vector<Card> cards) {
         card_bkgrd.x += 120;
     }
     SDL_RenderPresent(renderer);
+    SDL_Delay(500);
 }
