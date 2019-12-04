@@ -11,7 +11,7 @@ Renderer::Renderer() {
 
 Renderer::~Renderer() {
     std::cout << "~Renderer()\n";
-
+    tx_map.Cleanup();
     if (renderer != nullptr) {
         SDL_DestroyRenderer(renderer);
     }
@@ -66,27 +66,9 @@ bool Renderer::InitRenderer() {
  */
 void Renderer::LoadTexturesFromDisk() {
     std::cout << "LoadTexturesFromDisk()\n";
-    for (auto tx_to_load : tx_table) {
+    for (const auto& tx_to_load : tx_table) {
         tx_map.AddTexture(renderer, tx_to_load.first, tx_to_load.second);
     }
-}
-
-SDL_Texture *Renderer::LoadTexture(const std::string &file) {
-    const std::string file_path = Helpers::GetResourcePath() + file;
-    SDL_Texture *texture = nullptr;
-    SDL_Surface *surface = SDL_LoadBMP(file_path.c_str());
-
-    if (surface != nullptr) {
-        texture = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
-        if (texture == nullptr) {
-            std::cerr << "SDL_CreateTextureFromSurface error: " << SDL_GetError() << std::endl;
-        } else {
-            std::cerr << "SDL_LoadBMP error: " << SDL_GetError() << std::endl;
-        }
-    }
-
-    return texture;
 }
 
 /******************
@@ -124,17 +106,18 @@ void Renderer::RenderTable() {
  *      dealer - boolean to indicate which offset to use
  *      cards - the vector of Card objects to display
  */
+void Renderer::RenderHand(bool dealer, const std::vector<Card>& cards) {
     // set up initial position for cards
     SDL_Rect card_bkgrd = CARD_RECT;
     card_bkgrd.x += dealer ? DEALER_OFFSET.x : PLAYER_OFFSET.x;
     card_bkgrd.y += dealer ? DEALER_OFFSET.y : PLAYER_OFFSET.y;
     SDL_SetRenderDrawColor(renderer, col_card.r, col_card.g, col_card.b, col_card.a);
 
-    for (u_int i = 0; i < cards.size(); ++i) {
+    for (auto card : cards) {
         SDL_RenderFillRect(renderer, &card_bkgrd);
-        if (cards[i].faceup) {
-            tx_map.GetID(cards[i].GetRank())->Render(card_bkgrd.x + RANK_OFFSET.x, card_bkgrd.y + RANK_OFFSET.y);
-            tx_map.GetID(cards[i].GetSuit())->Render(card_bkgrd.x + SUIT_OFFSET.x, card_bkgrd.y + SUIT_OFFSET.y);
+        if (card.faceup) {
+            tx_map.GetID(card.GetRank())->Render(card_bkgrd.x + RANK_OFFSET.x, card_bkgrd.y + RANK_OFFSET.y);
+            tx_map.GetID(card.GetSuit())->Render(card_bkgrd.x + SUIT_OFFSET.x, card_bkgrd.y + SUIT_OFFSET.y);
         }
         card_bkgrd.x += 120;
     }

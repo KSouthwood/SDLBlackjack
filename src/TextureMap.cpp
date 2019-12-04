@@ -14,13 +14,14 @@
  *      name - the name of the texture
  *      filename - filename of texture to load
  */
-void TextureMap::AddTexture(SDL_Renderer *renderer, std::string name, std::string filename) {
-    if (name != "") {
-        Textures* new_tex = new Textures();
-        if (new_tex->LoadTexture(renderer, filename) == false) {
-            std::cerr << "Couldn't load texture: " << filename << std::endl;
-        } else {
+void TextureMap::AddTexture(SDL_Renderer *renderer, const std::string& name, const std::string& filename) {
+    std::cout << "AddTexture(" << name << ")\n";
+    if (!name.empty()) {
+        auto* new_tex = new Textures();
+        if (new_tex->LoadTexture(renderer, filename)) {
             texmap[name] = new_tex;
+        } else {
+            std::cerr << "Couldn't load texture: " << filename << std::endl;
         }
     }
 }
@@ -34,9 +35,10 @@ void TextureMap::AddTexture(SDL_Renderer *renderer, std::string name, std::strin
  *      N/A
  */
 void TextureMap::Cleanup() {
-    if (texmap.empty() == false) {
+    std::cout << "Cleanup()\n";
+    if (!texmap.empty()) {
         for (auto& tex : texmap) {
-            Textures* texture = (Textures*) tex.second;
+            auto* texture = (Textures*) tex.second;
 
             if (texture) {
                 delete texture;
@@ -59,6 +61,6 @@ void TextureMap::Cleanup() {
  *  Returns:
  *      texture of the requested ID or nullptr if the ID is not in the map
  */
-Textures *TextureMap::GetID(std::string name) {
+Textures *TextureMap::GetID(const std::string& name) {
     return (texmap.find(name) == texmap.end()) ? nullptr : texmap[name];
 }

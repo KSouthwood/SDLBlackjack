@@ -25,9 +25,7 @@ public:
     void RenderTable();
     bool InitRenderer();
     void LoadTexturesFromDisk();
-    void RenderHand(bool dealer, std::vector<Card> cards);
-
-    SDL_Texture *LoadTexture(const std::string &file);
+    void RenderHand(bool dealer, const std::vector<Card>& cards);
 
 private:
     SDL_Window *window = nullptr;

@@ -29,31 +29,7 @@ const static SDL_Rect box_player = {220, 260, 175, 50};
 const static SDL_Rect box_ch_one = {135, 500, 175, 50};
 const static SDL_Rect box_ch_two = {330, 500, 175, 50};
 
-// SDL_Rect's for the positions of the rank and suits
-const static SDL_Rect deal_rank = {30, 100, 40, 40};
-const static SDL_Rect deal_suit = {30, 140, 40, 40};
-const static SDL_Rect play_rank = {30, 340, 40, 40};
-const static SDL_Rect play_suit = {30, 380, 40, 40};
-
-// Card positions for dealer
-const SDL_Rect d_pos[5] = {
-        {.x =  20, .y = 90, .w = CARD_RECT.w, .h = CARD_RECT.h},
-        {.x = 140, .y = 90, .w = CARD_RECT.w, .h = CARD_RECT.h},
-        {.x = 260, .y = 90, .w = CARD_RECT.w, .h = CARD_RECT.h},
-        {.x = 380, .y = 90, .w = CARD_RECT.w, .h = CARD_RECT.h},
-        {.x = 500, .y = 90, .w = CARD_RECT.w, .h = CARD_RECT.h}
-};
-
-// Card positions for player
-const SDL_Rect p_pos[5] = {
-        {.x =  20, .y = 330, .w = CARD_RECT.w, .h = CARD_RECT.h},
-        {.x = 140, .y = 330, .w = CARD_RECT.w, .h = CARD_RECT.h},
-        {.x = 260, .y = 330, .w = CARD_RECT.w, .h = CARD_RECT.h},
-        {.x = 380, .y = 330, .w = CARD_RECT.w, .h = CARD_RECT.h},
-        {.x = 500, .y = 330, .w = CARD_RECT.w, .h = CARD_RECT.h}
-};
-
-const std::map<std::string, std::string> tx_table = {
+const static std::map<std::string, std::string> tx_table = {
         {"dealer", "Dealer.bmp"},
         {"player", "Player.bmp"},
         {"hit", "Hit.bmp"},

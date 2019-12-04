@@ -13,8 +13,8 @@
 
 class TextureMap {
 public:
-    void AddTexture(SDL_Renderer* renderer, std::string name, std::string filename);
-    Textures* GetID(std::string name);
+    void AddTexture(SDL_Renderer* renderer, const std::string& name, const std::string& filename);
+    Textures* GetID(const std::string& name);
     void Cleanup();
 
 private:

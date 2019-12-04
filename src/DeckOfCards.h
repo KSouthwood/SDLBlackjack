@@ -24,7 +24,7 @@ public:
 
     void DealCard(std::vector<Card> &hand);
     void ShuffleCards();
-    int ScoreHand(const std::vector<Card>& hand);
+    static int ScoreHand(const std::vector<Card>& hand);
 
 private:
     int card_to_deal = 0;

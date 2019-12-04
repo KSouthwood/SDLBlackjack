@@ -89,11 +89,11 @@ void Controller::ClearHands() {
 void Controller::DealHands() {
     for (int i = 0; i < 2; ++i) {
         deck.DealCard(player.cards);
-        player.score = deck.ScoreHand(player.cards);
+        player.score = DeckOfCards::ScoreHand(player.cards);
         rend.RenderHand(false, player.cards);
 
         deck.DealCard(dealer.cards);
-        dealer.score = deck.ScoreHand(dealer.cards);
+        dealer.score = DeckOfCards::ScoreHand(dealer.cards);
         if (i == 0) {
             dealer.cards.front().faceup = false;
         }
@@ -113,7 +113,7 @@ void Controller::PlayPlayerHand() {
     // temp code for now to handle dealing cards
     while (player.score < 17) {
         deck.DealCard(player.cards);
-        player.score = deck.ScoreHand(player.cards);
+        player.score = DeckOfCards::ScoreHand(player.cards);
         rend.RenderHand(false, player.cards);
     }
 }
@@ -133,7 +133,7 @@ void Controller::PlayDealerHand() {
 
     while (dealer.score < 17) {
         deck.DealCard(dealer.cards);
-        dealer.score = deck.ScoreHand(dealer.cards);
+        dealer.score = DeckOfCards::ScoreHand(dealer.cards);
         rend.RenderHand(true, dealer.cards);
     }
 }

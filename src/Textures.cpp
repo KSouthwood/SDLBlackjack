@@ -4,7 +4,7 @@
 
 #include "Textures.h"
 
-Textures::Textures() {}
+Textures::Textures() = default;
 
 Textures::~Textures() {
     if (texture) {
@@ -78,7 +78,7 @@ void Textures::Render(SDL_Rect dest) {
  *      y - y coordinate
  */
 void Textures::Render(int x, int y) {
-    std::cout << "Render(" << name << ")\n";
+    std::cout << "RenderXY(" << name << ")\n";
     SDL_Rect dest = {x, y, width, height};
     SDL_RenderCopy(renderer, texture, nullptr, &dest);
 }
