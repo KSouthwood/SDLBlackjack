@@ -33,7 +33,7 @@ private:
 
     const static int CARDS_IN_DECK = 52;
 
-    // filenames
+    // texture names
     std::string suits[4] = {"spade", "club",
                                          "diamond", "heart"};
 

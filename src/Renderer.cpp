@@ -21,6 +21,17 @@ Renderer::~Renderer() {
     }
 }
 
+/******************
+ *  Summary: Initialize the renderer
+ *
+ *  Description: Initialize the window and renderer for use throughout the program.
+ *
+ *  Parameter(s):
+ *      N/A
+ *
+ *  Returns:
+ *      bool to indicate success or not
+ */
 bool Renderer::InitRenderer() {
     // create window
     window = SDL_CreateWindow("SDLBlackjack", SDL_WINDOWPOS_CENTERED,
@@ -45,6 +56,14 @@ bool Renderer::InitRenderer() {
     return is_valid;
 }
 
+/******************
+ *  Summary: Load textures
+ *
+ *  Description: Iterate through the list of textures and load each one into a map.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
 void Renderer::LoadTexturesFromDisk() {
     std::cout << "LoadTexturesFromDisk()\n";
     for (auto tx_to_load : tx_table) {
@@ -73,8 +92,7 @@ SDL_Texture *Renderer::LoadTexture(const std::string &file) {
 /******************
  *  Summary: Draw our window
  *
- *  Description: Update the window when called after something changes. Also
- *      takes care of hiding the dealers card.
+ *  Description: Clear the window and draw the badges on top. Usually called once per hand.
  *
  *  Parameter(s):
  *      N/A
@@ -97,7 +115,15 @@ void Renderer::RenderTable() {
     tx_map.GetID("hit")->Render(box_ch_one);
 }
 
-void Renderer::RenderHand(bool dealer, std::vector<Card> cards) {
+/******************
+ *  Summary: Place the cards of the player and dealer on the table
+ *
+ *  Description: Place the cards calculating the offset for each one.
+ *
+ *  Parameter(s):
+ *      dealer - boolean to indicate which offset to use
+ *      cards - the vector of Card objects to display
+ */
     // set up initial position for cards
     SDL_Rect card_bkgrd = CARD_RECT;
     card_bkgrd.x += dealer ? DEALER_OFFSET.x : PLAYER_OFFSET.x;

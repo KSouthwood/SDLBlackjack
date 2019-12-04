@@ -13,6 +13,19 @@ Textures::~Textures() {
     }
 }
 
+/******************
+ *  Summary: Load surface from file and create texture
+ *
+ *  Description: Loads a file from disk, creates a surface from it, then creates a texture from that surface, then
+ *      deleting the surface. Aborts the process should an error occur at any point printing what the error was.
+ *
+ *  Parameter(s):
+ *      rend - the renderer to use when we display the texture
+ *      file - the filename of the image to be loaded
+ *
+ *  Returns:
+ *      bool indicating the success or failure of the texture loading process
+ */
 bool Textures::LoadTexture(SDL_Renderer* rend, const std::string &file) {
     std::cout << "LoadTexture(" << file << ")\n";
     bool loaded = false;
@@ -42,11 +55,28 @@ bool Textures::LoadTexture(SDL_Renderer* rend, const std::string &file) {
     return loaded;
 }
 
+/******************
+ *  Summary: Render the texture to the window
+ *
+ *  Description: Copy the texture to render target at the supplied coordinates
+ *
+ *  Parameter(s):
+ *      dest - SDL_Rect with the width, height, x and y of where to place the texture
+ */
 void Textures::Render(SDL_Rect dest) {
     std::cout << "Render(" << name << ")\n";
     SDL_RenderCopy(renderer, texture, nullptr, &dest);
 }
 
+/******************
+ *  Summary: Render the texture to the window
+ *
+ *  Description: Copy the texture to render target at the supplied x and y coordinates
+ *
+ *  Parameter(s):
+ *      x - x coordinate
+ *      y - y coordinate
+ */
 void Textures::Render(int x, int y) {
     std::cout << "Render(" << name << ")\n";
     SDL_Rect dest = {x, y, width, height};

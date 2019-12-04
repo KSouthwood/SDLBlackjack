@@ -4,6 +4,16 @@
 
 #include "TextureMap.h"
 
+/******************
+ *  Summary: Add texture to texture map
+ *
+ *  Description: Adds a texture to the texture map with a specific name
+ *
+ *  Parameter(s):
+ *      renderer - renderer in use
+ *      name - the name of the texture
+ *      filename - filename of texture to load
+ */
 void TextureMap::AddTexture(SDL_Renderer *renderer, std::string name, std::string filename) {
     if (name != "") {
         Textures* new_tex = new Textures();
@@ -15,6 +25,14 @@ void TextureMap::AddTexture(SDL_Renderer *renderer, std::string name, std::strin
     }
 }
 
+/******************
+ *  Summary: Frees all memory associated with the textures
+ *
+ *  Description: Iterates through the texture map freeing all memory associated with the textures
+ *
+ *  Parameter(s):
+ *      N/A
+ */
 void TextureMap::Cleanup() {
     if (texmap.empty() == false) {
         for (auto& tex : texmap) {
@@ -30,6 +48,17 @@ void TextureMap::Cleanup() {
     }
 }
 
+/******************
+ *  Summary: Return a texture of a specific ID
+ *
+ *  Description:
+ *
+ *  Parameter(s):
+ *      name - ID to get texture of
+ *
+ *  Returns:
+ *      texture of the requested ID or nullptr if the ID is not in the map
+ */
 Textures *TextureMap::GetID(std::string name) {
     return (texmap.find(name) == texmap.end()) ? nullptr : texmap[name];
 }

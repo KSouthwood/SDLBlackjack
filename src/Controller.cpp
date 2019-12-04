@@ -8,6 +8,16 @@ Controller::Controller() {
     std::cout << "Controller()\n";
 }
 
+/******************
+ *  Summary: Initialize the game
+ *
+ *  Description: Initialize the game by calling the appropriate set-up routines
+ *      for the renderer, then loading the textures and creating the shoe if
+ *      the renderer loaded without error.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
 bool Controller::GameInit() {
     std::cout << "GameInit()\n";
     if (rend.InitRenderer()) {
@@ -17,6 +27,15 @@ bool Controller::GameInit() {
     return rend.is_valid;
 }
 
+/******************
+ *  Summary: Game loop
+ *
+ *  Description: Loop that controls the flow of the game and keeps going until the player
+ *      decides to quit.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
 void Controller::GameLoop() {
     std::cout << "GameLoop()\n";
     bool game_quit = false;
@@ -82,6 +101,14 @@ void Controller::DealHands() {
     }
 }
 
+/******************
+ *  Summary: Have the player play their hand
+ *
+ *  Description: Have the player play their hand by asking them if they want to hit or stand.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
 void Controller::PlayPlayerHand() {
     // temp code for now to handle dealing cards
     while (player.score < 17) {
@@ -91,6 +118,14 @@ void Controller::PlayPlayerHand() {
     }
 }
 
+/******************
+ *  Summary: Play the dealer's hand
+ *
+ *  Description: Play the dealer's hand until they've reached soft 17 or more.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
 void Controller::PlayDealerHand() {
     // TODO: delete temp code
     dealer.cards.front().faceup = true;
