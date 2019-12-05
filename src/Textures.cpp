@@ -83,3 +83,11 @@ void Textures::Render(int x, int y) {
     SDL_RenderCopy(renderer, texture, nullptr, &dest);
 }
 
+int Textures::GetWidth() {
+    return width;
+}
+
+int Textures::GetHeight() {
+    return height;
+}
+

@@ -25,6 +25,8 @@ public:
     bool LoadTexture(SDL_Renderer* rend, const std::string &file);
     void Render(SDL_Rect dest);
     void Render(int x, int y);
+    int GetWidth();
+    int GetHeight();
 };
 
 

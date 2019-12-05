@@ -50,7 +50,8 @@ void Controller::GameLoop() {
             DealHands();
             PlayPlayerHand();
             PlayDealerHand();
-            SDL_RenderPresent(rend.renderer);
+            WhoWon();
+//            SDL_RenderPresent(rend.renderer);
             SDL_Delay(2000);
         }
         game_quit = true;
@@ -138,8 +139,26 @@ void Controller::PlayDealerHand() {
     }
 }
 
+/******************
+ *  Summary: Decide who won the hand
+ *
+ *  Description: Compare the player's hand to the dealer's hand to determine if they've won or not
+ *
+ *  Parameter(s):
+ *      N/A
+ */
 void Controller::WhoWon() {
-
+    std::cout << "WhoWon()\n";
+    std::string result = "lose";
+    if (player.score < 22) {
+        if ((player.score > dealer.score) || (dealer.score > 21)) {
+            result = "win";
+        } else if (player.score == dealer.score) {
+            result = "push";
+        }
+    }
+    std::cout << "Dealer: " << dealer.score << " Player: " << player.score << " Result: " << result << std::endl;
+    rend.ShowWhoWon(result);
 }
 
 void Controller::CenterTexture() {

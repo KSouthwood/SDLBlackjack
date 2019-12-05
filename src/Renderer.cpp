@@ -124,3 +124,30 @@ void Renderer::RenderHand(bool dealer, const std::vector<Card>& cards) {
     SDL_RenderPresent(renderer);
     SDL_Delay(500);
 }
+
+/******************
+ *  Summary: Display the result of the hand
+ *
+ *  Description: Center the texture of the result of the hand in the renderer
+ *
+ *  Parameter(s):
+ *      result - the name of the texture to display
+ */
+void Renderer::ShowWhoWon(const std::string& result) {
+    std::cout << "ShowWhoWon(" << result << ")\n";
+    // get the dimensions of our renderer
+    int rend_width = 0;
+    int rend_height = 0;
+    SDL_GetRendererOutputSize(renderer, &rend_width, &rend_height);
+
+    // get the dimensions of the texture
+    int tex_width = tx_map.GetID(result)->GetWidth();
+    int tex_height = tx_map.GetID(result)->GetHeight();
+
+    SDL_Rect center = {(rend_width / 2) - (tex_width / 2),
+                       (rend_height / 2) - (tex_height / 2),
+                       tex_width, tex_height};
+
+    tx_map.GetID(result)->Render(center);
+    SDL_RenderPresent(renderer);
+}

@@ -26,6 +26,7 @@ public:
     bool InitRenderer();
     void LoadTexturesFromDisk();
     void RenderHand(bool dealer, const std::vector<Card>& cards);
+    void ShowWhoWon(const std::string& result);
 
 private:
     SDL_Window *window = nullptr;
