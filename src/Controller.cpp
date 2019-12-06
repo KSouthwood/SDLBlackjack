@@ -111,11 +111,23 @@ void Controller::DealHands() {
  *      N/A
  */
 void Controller::PlayPlayerHand() {
-    // temp code for now to handle dealing cards
-    while (player.score < 17) {
-        deck.DealCard(player.cards);
-        player.score = DeckOfCards::ScoreHand(player.cards);
-        rend.RenderHand(false, player.cards);
+    bool stand = false;
+    CHOICES choice = NONE;
+
+    while (!stand) {
+        choice = Helpers::GetChoice();
+
+        if (choice == HIT || choice == LEFT) {
+            deck.DealCard(player.cards);
+            player.score = DeckOfCards::ScoreHand(player.cards);
+            rend.RenderHand(false, player.cards);
+        }
+
+        if ((player.score > 21) || (player.cards.size() == 5) ||
+            (choice == STAND) || (choice == RIGHT)) {
+            stand = true;
+        }
+
     }
 }
 

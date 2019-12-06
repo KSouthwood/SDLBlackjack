@@ -8,6 +8,7 @@
 #include <vector>
 #include "Renderer.h"
 #include "DeckOfCards.h"
+#include "Helpers.h"
 
 class Controller {
 public:

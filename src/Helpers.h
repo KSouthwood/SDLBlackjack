@@ -9,9 +9,14 @@
 #include <string>
 #include <SDL2/SDL.h>
 
+#include "Renderer_Consts.h"
+
+enum CHOICES {NONE, STAND, HIT, PLAY, QUIT, LEFT, RIGHT};
+
 class Helpers {
 public:
     static std::string GetResourcePath();
+    static CHOICES GetChoice();
 };
 
 
