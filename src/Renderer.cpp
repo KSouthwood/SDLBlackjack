@@ -149,5 +149,10 @@ void Renderer::ShowWhoWon(const std::string& result) {
                        tex_width, tex_height};
 
     tx_map.GetID(result)->Render(center);
+    SDL_SetRenderDrawColor(renderer, col_badge.r, col_badge.g, col_badge.b, col_badge.a);
+    SDL_RenderFillRect(renderer, &box_ch_one);
+    tx_map.GetID("play")->Render(box_ch_one);
+    SDL_RenderFillRect(renderer, &box_ch_two);
+    tx_map.GetID("quit")->Render(box_ch_two);
     SDL_RenderPresent(renderer);
 }

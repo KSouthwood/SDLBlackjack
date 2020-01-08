@@ -35,7 +35,7 @@ private:
     void PlayPlayerHand();
     void PlayDealerHand();
     void WhoWon();
-    void CenterTexture();
+    bool KeepPlaying();
 };
 
 

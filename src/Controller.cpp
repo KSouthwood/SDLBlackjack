@@ -41,20 +41,16 @@ void Controller::GameLoop() {
     bool game_quit = false;
 
     while (!game_quit) {
-        for (int i = 0; i < 10; ++i) {
-            if (deck.shuffle) {
-                deck.ShuffleCards();
-            }
-            ClearHands();
-            rend.RenderTable();
-            DealHands();
-            PlayPlayerHand();
-            PlayDealerHand();
-            WhoWon();
-//            SDL_RenderPresent(rend.renderer);
-            SDL_Delay(2000);
+        if (deck.shuffle) {
+            deck.ShuffleCards();
         }
-        game_quit = true;
+        ClearHands();
+        rend.RenderTable();
+        DealHands();
+        PlayPlayerHand();
+        PlayDealerHand();
+        WhoWon();
+        game_quit = KeepPlaying();
     }
 }
 
@@ -173,6 +169,32 @@ void Controller::WhoWon() {
     rend.ShowWhoWon(result);
 }
 
-void Controller::CenterTexture() {
+/******************
+ *  Summary: Get players choice if they're continuing or not
+ *
+ *  Description: Return true or false if the player wants to keep playing hands or not.
+ *
+ *  Parameter(s):
+ *      N/A
+ */
+bool Controller::KeepPlaying() {
+    std::cout << "KeepPlaying()\n";
+    CHOICES choice = NONE;
+    bool result = false;
 
+    while (choice == NONE) {
+        choice = Helpers::GetChoice();
+        if (choice == HIT || choice == STAND) {
+            choice = NONE;
+        }
+        if (choice == QUIT || choice == RIGHT) {
+            result = true;
+        }
+        if (choice == PLAY || choice == LEFT) {
+            result = false;
+        }
+    }
+
+    return result;
 }
+
