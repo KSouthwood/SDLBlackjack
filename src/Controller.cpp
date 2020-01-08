@@ -108,7 +108,7 @@ void Controller::DealHands() {
  */
 void Controller::PlayPlayerHand() {
     bool stand = false;
-    CHOICES choice = NONE;
+    CHOICES choice;
 
     while (!stand) {
         choice = Helpers::GetChoice();
