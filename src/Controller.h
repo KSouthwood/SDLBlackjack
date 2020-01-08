@@ -35,7 +35,7 @@ private:
     void PlayPlayerHand();
     void PlayDealerHand();
     void WhoWon();
-    bool KeepPlaying();
+    static bool KeepPlaying();
 };
 
 

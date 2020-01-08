@@ -136,14 +136,15 @@ void Controller::PlayPlayerHand() {
  *      N/A
  */
 void Controller::PlayDealerHand() {
-    // TODO: delete temp code
-    dealer.cards.front().faceup = true;
-    rend.RenderHand(true, dealer.cards);
-
-    while (dealer.score < 17) {
-        deck.DealCard(dealer.cards);
-        dealer.score = DeckOfCards::ScoreHand(dealer.cards);
+    if (player.score < 22) {
+        dealer.cards.front().faceup = true;
         rend.RenderHand(true, dealer.cards);
+
+        while (dealer.score < 17) {
+            deck.DealCard(dealer.cards);
+            dealer.score = DeckOfCards::ScoreHand(dealer.cards);
+            rend.RenderHand(true, dealer.cards);
+        }
     }
 }
 
